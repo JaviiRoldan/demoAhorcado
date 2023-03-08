@@ -29,10 +29,10 @@ public class GameServiceImpl implements GameService{
         this.gameAhorcado = gameAhorcado;
     }
     public Integer getCuentaFallos() {
-        return cuentaFallos;
+        return this.cuentaFallos;
     }
     public Integer getLimiteFallos() {
-        return limiteFallos;
+        return this.limiteFallos;
     }
     public Integer setOneLessOportunity(){
         this.cuentaFallos = cuentaFallos--;

@@ -26,6 +26,6 @@ public class GeneraPalabraAhorcado {
 
     public String generaPalabraRandom(){
         int n = (int)(Math.random()*10+1);
-        return palabrasJuego.get(n);
+        return this.palabrasJuego.get(n);
     }
 }
