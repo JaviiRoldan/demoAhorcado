@@ -9,6 +9,8 @@ public interface GameService {
     public void setGameAhorcado(GameAhorcado gameAhorcado);
     public Integer getCuentaFallos();
     public Integer getLimiteFallos();
+    public void imprimePalabra(String palabraJuego);
+    public void añadeNuevoIndice(String palabraJuego, String letraEscaneada);
 
 
         public Integer setOneLessOportunity();

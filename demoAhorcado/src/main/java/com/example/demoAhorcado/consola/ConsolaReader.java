@@ -47,14 +47,14 @@ public class ConsolaReader {
                     break;
                 case 1:
                     while(gameService.getLimiteFallos()<=gameService.getLimiteFallos()) {
-                        imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
+                        gameService.imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
                         System.out.println("Ingrese nueva letra o muere: ");
                         letraEscaneada = sc.next();
-                        añadeNuevoIndice(gameService.getGameAhorcado().getPalabraAcertar(), letraEscaneada);
+                        gameService.añadeNuevoIndice(gameService.getGameAhorcado().getPalabraAcertar(), letraEscaneada);
 
                         if (gameService.getGameAhorcado().getListaIndices().size() == gameService.getGameAhorcado().getTamañoPalabra()) {
                             System.out.println("GANASTE!");
-                            imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
+                            gameService.imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
                         }
 
                         if (!gameService.getGameAhorcado().getPalabraAcertar().contains("" + letraEscaneada)) {
@@ -65,10 +65,6 @@ public class ConsolaReader {
                         }
                     }
                     break;
-                case 2:
-
-                    break;
-
                 default:
                     System.out.println("Opción no válida");
                     break;
@@ -76,26 +72,4 @@ public class ConsolaReader {
         }
     }
 
-    private void imprimePalabra(String palabraJuego) {
-        String palabraActualJuego = " " + palabraJuego.charAt(0) + " ";
-        for (int i = 1; i < palabraJuego.length(); i++) {
-            if (gameService.getGameAhorcado().getListaIndices().contains(i)) {
-                palabraActualJuego.concat(String.valueOf(" " + palabraJuego.charAt(i) + " "));
-
-            } else {
-                palabraActualJuego.concat(" - ");
-            }
-        }
-        System.out.println(palabraActualJuego);
-    }
-
-    private void añadeNuevoIndice(String palabraJuego, String letraEscaneada) {
-        if (palabraJuego.contains("" + letraEscaneada)) {
-            for (int i = 1; i < palabraJuego.length(); i++) {
-                if (letraEscaneada.equals(palabraJuego.charAt(i))) {
-                    gameService.getGameAhorcado().getListaIndices().add(i);
-                }
-            }
-        }
-    }
 }
