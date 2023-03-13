@@ -8,18 +8,10 @@ import org.springframework.stereotype.Service;
 public class GameServiceImpl implements GameService{
     private GameAhorcado gameAhorcado;
     private Integer cuentaFallos;
-    private Integer limiteFallos=8;
-
-
-    public GameServiceImpl() {
-        this.cuentaFallos = 0;
-    }
-
-    public void IniJuego(){
-        GeneraPalabraAhorcado generaPalabraAhorcado = new GeneraPalabraAhorcado();
-        String palabraJuego = generaPalabraAhorcado.generaPalabraRandom();
-
-        this.gameAhorcado = new GameAhorcado(palabraJuego);
+    public GameServiceImpl() {}
+    public GameServiceImpl(GameAhorcado gameAhorcado) {
+        this.gameAhorcado = gameAhorcado;
+        this.cuentaFallos = 8;
     }
 
     public GameAhorcado getGameAhorcado() {
@@ -29,38 +21,50 @@ public class GameServiceImpl implements GameService{
         this.gameAhorcado = gameAhorcado;
     }
     public Integer getCuentaFallos() {
-        return this.cuentaFallos;
+        return cuentaFallos;
     }
-    public Integer getLimiteFallos() {
-        return this.limiteFallos;
+    public void setCuentaFallos(Integer cuentaFallos) {
+        this.cuentaFallos = cuentaFallos;
     }
     public Integer setOneLessOportunity(){
         this.cuentaFallos = cuentaFallos--;
-        return cuentaFallos--;
+        return cuentaFallos;
     }
 
 
-    public void imprimePalabra(String palabraJuego) {
-        String palabraActualJuego = " " + palabraJuego.charAt(0) + " ";
-        for (int i = 1; i < palabraJuego.length(); i++) {
-            if (getGameAhorcado().getListaIndices().contains(i)) {
-                palabraActualJuego.concat(String.valueOf(" " + palabraJuego.charAt(i) + " "));
+    public GameAhorcado IniJuego(){
+        GeneraPalabraAhorcado generaPalabraAhorcado = new GeneraPalabraAhorcado();
+        String palabraJuego = generaPalabraAhorcado.generaPalabraRandom();
 
+        GameAhorcado gameAhorcado1 = new GameAhorcado(palabraJuego);
+        setCuentaFallos(8);
+        return gameAhorcado1;
+    }
+    public void imprimePalabra(GameAhorcado gameAhorcado) {
+        String nuevaPalabra = " " + gameAhorcado.getPalabraAcertar().charAt(0) + " ";
+        for (int i = 1; i < gameAhorcado.getTamañoPalabra(); i++) {
+            if (gameAhorcado.getListaIndices().contains(i)) {
+                nuevaPalabra+=" " + gameAhorcado.getPalabraAcertar().charAt(i) + " ";
             } else {
-                palabraActualJuego.concat(" - ");
+                nuevaPalabra+=" - ";
             }
         }
-        System.out.println(palabraActualJuego);
+
+        System.out.println(nuevaPalabra);
     }
 
-    public void añadeNuevoIndice(String palabraJuego, String letraEscaneada) {
-        if (palabraJuego.contains("" + letraEscaneada)) {
-            for (int i = 1; i < palabraJuego.length(); i++) {
-                if (letraEscaneada.equals(palabraJuego.charAt(i))) {
-                    getGameAhorcado().getListaIndices().add(i);
-                }
+    public GameAhorcado añadeNuevoIndice(GameAhorcado gameAhorcado, String letraEscaneada) {
+        if (gameAhorcado.getPalabraAcertar().contains(letraEscaneada)) {
+            for (int i = 1; i < gameAhorcado.getPalabraAcertar().length(); i++) {
+                if (letraEscaneada.equals(gameAhorcado.getPalabraAcertar().charAt(i))) {
+                    //gameAhorcado.getListaIndices().add(i);
+                    gameAhorcado.setLetraNueva(i);                }
             }
+        }else{
+            System.out.println("Mala suerte, te quedan " + getCuentaFallos());
         }
+        //GameAhorcado gameAhorcado1 = gameAhorcado;
+        return gameAhorcado;
     }
 
 }

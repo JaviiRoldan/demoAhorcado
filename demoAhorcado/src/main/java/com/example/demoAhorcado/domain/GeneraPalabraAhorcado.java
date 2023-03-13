@@ -7,25 +7,23 @@ import java.util.List;
 import java.util.Random;
 
 public class GeneraPalabraAhorcado {
-    private final List<String> palabrasJuego = new ArrayList<>();
-    public GeneraPalabraAhorcado() {
-        this.palabrasJuego.add("Permuta");
-        this.palabrasJuego.add("Accion");
-        this.palabrasJuego.add("Monitor");
-        this.palabrasJuego.add("Estructura");
-        this.palabrasJuego.add("Pelicula");
-        this.palabrasJuego.add("Actor");
-        this.palabrasJuego.add("Zizaya");
-        this.palabrasJuego.add("Movimiento");
-        this.palabrasJuego.add("Equis");
-        this.palabrasJuego.add("Ursula");
+    public List<String> GeneraPalabraAhorcadoLista() {
+        List<String> listaPalabras = new ArrayList<>();
+        listaPalabras.add("Permuta");
+        listaPalabras.add("Accion");
+        listaPalabras.add("Monitor");
+        listaPalabras.add("Estructura");
+        listaPalabras.add("Pelicula");
+        listaPalabras.add("Actor");
+        listaPalabras.add("Zizaya");
+        listaPalabras.add("Movimiento");
+        listaPalabras.add("Equis");
+        listaPalabras.add("Ursula");
+        return listaPalabras;
     }
-    public List<String> getPalabrasJuego() {
-        return palabrasJuego;
-    }
-
     public String generaPalabraRandom(){
         int n = (int)(Math.random()*10+1);
-        return this.palabrasJuego.get(n);
+        List<String> listaPalabras = GeneraPalabraAhorcadoLista();
+        return  listaPalabras.get(n);
     }
 }

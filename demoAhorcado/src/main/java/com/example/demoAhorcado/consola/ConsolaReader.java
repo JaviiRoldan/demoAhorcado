@@ -5,24 +5,27 @@ import com.example.demoAhorcado.domain.GeneraPalabraAhorcado;
 import com.example.demoAhorcado.service.GameService;
 import com.example.demoAhorcado.service.GameServiceImpl;
 import org.springframework.stereotype.Controller;
-
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 @Controller
 public class ConsolaReader {
     private GameService gameService;
-
     public ConsolaReader(GameService gameService) {
+        this.gameService = gameService;
+    }
+
+    public GameService getGameService() {
+        return gameService;
+    }
+    public void setGameService(GameService gameService) {
         this.gameService = gameService;
     }
 
     @PostConstruct
     public void init() {
 
-        gameService.IniJuego();
+        GameAhorcado gameAhorcado = gameService.IniJuego();
 
         String letraEscaneada;
         Scanner sc = new Scanner(System.in);
@@ -46,24 +49,22 @@ public class ConsolaReader {
                     System.out.println("Hasta luego");
                     break;
                 case 1:
-                    while(gameService.getLimiteFallos()<=gameService.getLimiteFallos()) {
-                        gameService.imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
-                        System.out.println("Ingrese nueva letra o muere: ");
+                    while(gameService.getCuentaFallos()>0) {
+                        gameService.imprimePalabra(gameAhorcado);
+                        System.out.println("Ingrese nueva letra: ");
                         letraEscaneada = sc.next();
-                        gameService.añadeNuevoIndice(gameService.getGameAhorcado().getPalabraAcertar(), letraEscaneada);
+                        gameService.añadeNuevoIndice(gameAhorcado,letraEscaneada);
 
-                        if (gameService.getGameAhorcado().getListaIndices().size() == gameService.getGameAhorcado().getTamañoPalabra()) {
-                            System.out.println("GANASTE!");
-                            gameService.imprimePalabra(gameService.getGameAhorcado().getPalabraAcertar());
+                        if (gameAhorcado.getListaIndices().size() == gameAhorcado.getTamañoPalabra()) {
+                            System.out.println("GANASTE! la palabra correcta es " + gameAhorcado.getPalabraAcertar());
+                            gameService.imprimePalabra(gameAhorcado);
                         }
 
-                        if (!gameService.getGameAhorcado().getPalabraAcertar().contains("" + letraEscaneada)) {
+                        if (!gameAhorcado.getPalabraAcertar().contains(letraEscaneada)) {
                             gameService.setOneLessOportunity();
-                            if (gameService.getCuentaFallos() == gameService.getLimiteFallos()) {
-                                System.out.println("PERDISTE, deberías replantearte algunas cosas eh..");
-                            }
                         }
                     }
+                    System.out.println("PERDISTE, deberías replantearte algunas cosas eh..");
                     break;
                 default:
                     System.out.println("Opción no válida");
